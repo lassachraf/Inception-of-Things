@@ -29,7 +29,6 @@ kubectl wait --for=condition=available deployment/argocd-server \
 echo "==> [5/5] Applying Argo CD Application..."
 kubectl apply -f "$SCRIPT_DIR/../confs/application.yaml"
 
-# ---------- wait for first sync ----------
 echo "==> Waiting for Application to be Synced/Healthy (max 3 min)..."
 SYNC_OK=0
 for i in $(seq 1 90); do
@@ -42,7 +41,6 @@ for i in $(seq 1 90); do
     sleep 2
 done
 
-# Wait for the pod to be Ready (only if sync succeeded)
 POD_OK=0
 if [ "$SYNC_OK" = "1" ]; then
     echo "==> Waiting for the app pod to be Ready (max 1 min)..."
@@ -57,7 +55,6 @@ if [ "$SYNC_OK" = "1" ]; then
     done
 fi
 
-# Save the password once so we don't query the API twice
 ARGOCD_PASSWORD=$(kubectl -n argocd get secret argocd-initial-admin-secret \
     -o jsonpath='{.data.password}' | base64 -d)
 
@@ -70,7 +67,7 @@ if [ "$SYNC_OK" = "1" ] && [ "$POD_OK" = "1" ]; then
     echo "  [OK] Application Synced/Healthy, pod Ready."
 else
     echo "  [WARN] Sync/Ready not confirmed within timeout."
-    echo "         Check: kubectl -n argocd get applica    tion iot-alassiqu"
+    echo "         Check: kubectl -n argocd get application iot-alassiqu"
     echo "         Check: kubectl -n dev get pods"
 fi
 echo ""
