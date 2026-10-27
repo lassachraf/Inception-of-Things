@@ -22,7 +22,9 @@ kubectl apply -n argocd --server-side --force-conflicts \
     -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
 echo "==> Waiting for Argo CD pods to be Ready..."
-kubectl wait --for=condition=Ready pods --all -n argocd --timeout=300s
+# kubectl wait --for=condition=Ready pods --all -n argocd --timeout=300s
+kubectl wait --for=condition=available deployment/argocd-server \
+    -n argocd --timeout=300s
 
 echo "==> [5/5] Applying Argo CD Application..."
 kubectl apply -f "$SCRIPT_DIR/../confs/application.yaml"
@@ -78,7 +80,7 @@ echo "  -> kubectl -n argocd port-forward svc/argocd-server 8080:443"
 echo ""
 echo "=============================================================="
 echo "| Argo CD is up.                                             |"
-echo "|  URL      : https://localhost:8080   (after port-forward)  |"
+echo "|  URL      : http://localhost:8080   (after port-forward)   |"
 echo "|  Username : admin                                          |"
 printf "|  Password : %-46s |\n" "$ARGOCD_PASSWORD"
 echo "=============================================================="
