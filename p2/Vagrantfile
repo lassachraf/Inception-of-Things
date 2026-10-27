@@ -1,0 +1,20 @@
+BOX = "bento/ubuntu-24.04"
+
+Vagrant.configure("2") do |config|
+  config.vm.box = BOX
+
+  config.vm.define "obelhamiS" do |server|
+    server.vm.hostname = "obelhamiS"
+    server.vm.network "private_network" , ip: "192.168.56.110"
+
+    server.vm.provider "virtualbox" do |vb|
+      vb.name = "obelhamiS"
+      vb.cpus = 1
+      vb.memory = 1024
+    end
+    
+    server.vm.provision "shell" , path: "scripts/server.sh"
+    server.vm.provision "deploy-apps", type: "shell", path: "scripts/apps.sh"
+    
+  end
+end
