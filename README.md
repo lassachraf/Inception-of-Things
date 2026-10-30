@@ -510,9 +510,9 @@ kubectl get services -n argocd
 
 | Member | GitHub |
 |:-------|:-------|
-| Member 1 | [@username](https://github.com/username) |
-| Member 2 | [@username](https://github.com/username) |
-| Member 3 | [@username](https://github.com/username) |
+| Member 1 | [@AchrafLassiqui](https://github.com/lassachraf) |
+| Member 2 | [@AmineKaddouri](https://github.com/aminekaddouri) |
+| Member 3 | [@OmarBelhamid](https://github.com/obelhami) |
 
 ---
 
